@@ -247,7 +247,7 @@ class BSTree(object):
             # 既有左子树又有右子树
             elif root.left and root.right:
                 tmp_node = self.find_min(root.right)  # 找到右子树中最小值节点
-                root.val = tmp_node.data               # 替换待删除节点值
+                root.data = tmp_node.data               # 替换待删除节点值
                 root.right = self.delete(root.right, tmp_node.data)  # 删除右子树中最小值节点
         return root
 
@@ -303,7 +303,10 @@ def BSTree_test():
         tree2.insert(i)
     tree2.print_tree(tree2.root)
 
-    print('删除节点:\n')
+    print('\n删除节点:\n')
+    tree1.delete(tree1.root, 35)
+    tree1.print_tree(tree1.root)
+
 
 if __name__ == "__main__":
     # BTree_test()
