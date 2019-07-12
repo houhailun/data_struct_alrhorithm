@@ -20,7 +20,5 @@ def hanno_tower(height, from_pole, with_pole, to_pole):
         hanno_tower(height-1, with_pole, from_pole, to_pole)
 
 
-def
 if __name__ == "__main__":
-
     hanno_tower(5, 'A', 'B', 'C')
