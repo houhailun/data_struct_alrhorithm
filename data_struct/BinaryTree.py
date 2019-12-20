@@ -8,6 +8,12 @@
 """
 print(__doc__)
 
+"""
+节点的高度：节点到叶子节点的最长路径(边数)
+节点的深度：根节点到叶子节点所经历的边的个数
+节点的层数：节点的深度 + 1
+树的高度：根节点的高度
+"""
 
 class TNode(object):
     """二叉树节点类"""
@@ -33,10 +39,10 @@ class BTree(object):
         my_queue.append(self.root)
         while True:
             cur_node = my_queue.pop(0)
-            if not cur_node.left:
+            if not cur_node.left:  # 左孩子为空
                 cur_node.left = node
                 return
-            elif not cur_node.right:
+            elif not cur_node.right:  # 右孩子为空
                 cur_node.right = node
                 return
             else:
@@ -66,6 +72,8 @@ class BTree(object):
                 my_queue.append(cur_node.left)
                 my_queue.append(cur_node.right)
 
+    # 二叉树的遍历：表示的是节点与其左右子树节点遍历打印的先后顺序
+    # 时间复杂度为O(n)
     def pre_travel(self, node):
         """前序遍历: 根-左-右"""
         if not node:  # 空树
@@ -261,16 +269,11 @@ class BSTree(object):
 
 def BTree_test():
     tree = BTree()
-    tree.add(0)
     tree.add(1)
     tree.add(2)
     tree.add(3)
     tree.add(4)
     tree.add(5)
-    tree.add(6)
-    tree.add(7)
-    tree.add(8)
-    tree.add(9)
 
     print('前序遍历:\n')
     tree.pre_travel(tree.root)
@@ -309,6 +312,6 @@ def BSTree_test():
 
 
 if __name__ == "__main__":
-    # BTree_test()
+    BTree_test()
 
-    BSTree_test()
+    # BSTree_test()

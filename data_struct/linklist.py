@@ -63,21 +63,24 @@ class LinkList:
 
     def remove(self, ix):
         """链表中删除ix位置节点"""
-        del_date = 0
+        del_data = 0
         cur_node = self.head
         pre_node = None
         if 0 == ix:  # 删除头节点
-            del_date = self.head.get_data()
+            del_data = self.head.get_data()
             self.head = self.head.get_next()
-            return del_date
+            return del_data
         i = 0
         while cur_node:
+            print('i:', i)
             if i == ix:
                 pre_node.next = cur_node.get_next()
                 del_data = cur_node.get_data()
-            if i < ix:
+                break
+            elif i < ix:
                 pre_node = cur_node
                 cur_node = cur_node.get_next()
+                i += 1
         if i > ix:
             del_data = -1
         return del_data
@@ -104,7 +107,9 @@ def link_list():
 
     # print(link.search(4))
 
+    # link.print_link()
     print(link.remove(3))
+
 
 if __name__ == "__main__":
     link_list()
