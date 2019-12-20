@@ -3,6 +3,15 @@
 
 """
 模块功能：讲述各种排序算法
+冒泡、选择、插入、堆、希尔、归并、快排
+
+如何评估算法呢
+    1、排序算法的执行效率
+        1.1 最好情况、最坏情况、平均情况时间复杂度
+        1.2 时间复杂度的系数、常数、低阶
+        1.3 比较次数和交换次数
+    2、排序算法的稳定性
+    3、排序算法内存消耗
 """
 
 
@@ -22,6 +31,23 @@ class Sort(object):
 
         return array
 
+    def bubble_sort_v2(self):
+        # 每次把较大的放到后面
+        array = self.data.copy()
+        length = len(array)
+        for i in range(length):
+            for j in range(length-i-1):
+                if array[j] > array[j+1]:
+                    array[j], array[j+1] = array[j+1], array[j]
+        return array
+    # 是否原地排序：冒泡算法是原地排序，空间复杂度为O(1)
+    # 是否稳定排序：冒泡算法中只有交换才能改变元素的前后顺序，为了保证稳定性，在相邻元素相等时候不做交换，相同大小的元素的位置在排序前后
+    #     不会改变，所以冒泡算法是稳定排序算法
+    # 时间复杂度：
+    #   最好情况：数组本身就是有序的，这种只需要排序一次即可，时间复杂度为O(N)
+    #   最坏情况：数组是倒序的，这种需要n次冒泡排序，时间复杂度为O(N*N)
+    #   平均情况：
+
     def select_sort(self):
         """
         选择排序：每次在当前未完成排序的数组中找当前最小值，写到当前数组最前面
@@ -38,14 +64,21 @@ class Sort(object):
                 array[mininum], array[i] = array[i], array[mininum]
 
         return array
+    # 原地排序
+    # 非稳定排序：每次在当前未完成排序的数组中找当前最小值，和前面交换位置，破坏了稳定性
 
     def insert_sort(self):
-        """直接插入法：操作是将一个记录插入到已经排好序的有序表中，从而得到一个新的、记录数增1的有序表 O(n*n)"""
+        """
+        直接插入法：操作是将一个记录插入到已经排好序的有序表中，从而得到一个新的、记录数增1的有序表 O(n*n)
+        插入排序包含两种操作：
+            一种是元素的比较，当插入元素时需要把待插入元素和已有元素比较，确定插入位置
+            一种是元素的移动，把插入点之后的元素后移，这样才能腾出位置来插入元素
+        """
         array = self.data.copy()
         length = len(array)
         for i in range(1, length):
             if array[i] < array[i-1]:
-                tmp = array[i]
+                tmp = array[i]  # 待插入元素
                 j = i - 1
                 while j >= 0 and array[j] > tmp:  # 后移
                     array[j + 1] = array[j]
@@ -53,6 +86,9 @@ class Sort(object):
                 array[j+1] = tmp
 
         return array
+    # 是否原地排序：是原地排序，空间复杂度为O(1)
+    # 是否稳定排序: 对于值相同的元素，把后面出现的元素，插入到前面出现元素的后面，因此是稳定排序
+    # 时间复杂度：O(N*N)
 
     def shell_sort(self):
         """
@@ -172,15 +208,37 @@ class Sort(object):
 
         return start
 
+    def bucket_sort(self):
+        # 桶排序
+        # 思想：把数据分到有序的桶中，对桶内元素应该快排排序, 最后由于桶是有序的，直接根据桶的序号即可获取最终有序数组
+        # 前提: 1、数据能够划分到桶中  2、数据能够平均划分到桶中
+        # 解决方法：对数据多的桶继续划分
+        data = self.data.copy()
+        max_num = max(data)
+        bucket = [0] * (max_num + 1)  # 创建元素全是0的桶
+
+        # 把元素放到桶中，下标为val，数据为val的次数
+        for val in data:
+            bucket[val] += 1
+
+        # 存储排序好的元素
+        sort_nums = []
+        for j in range(len(bucket)):  # 根据桶号查找
+            if bucket[j] != 0:        # 该桶有元素
+                for y in range(bucket[j]):  # 取指定个数的元素j
+                    sort_nums.append(j)
+        return sort_nums
+
 
 if __name__ == "__main__":
     sort_class = Sort()
     print(sort_class.bubble_sort())
-    print(sort_class.insert_sort())
-    print(sort_class.select_sort())
-    print(sort_class.shell_sort())
-    print(sort_class.heap_sort())
-    print(sort_class.merge_sort(array))
-    print(sort_class.quick_sort(array, 0, len(array)-1))
+    print(sort_class.bubble_sort_v2())
+    # print(sort_class.insert_sort())
+    # print(sort_class.select_sort())
+    # print(sort_class.shell_sort())
+    # print(sort_class.heap_sort())
+    # print(sort_class.merge_sort(array))
+    # print(sort_class.quick_sort(array, 0, len(array)-1))
 
 

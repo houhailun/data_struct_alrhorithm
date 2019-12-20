@@ -29,6 +29,24 @@ class Search(object):
         二分查找：前提条件为序列是有序的或者基本有序
         思想：中间元素等于key，则ok；中间元素大于key，则在左子序列查找；否则在右子序列查找
         时间复杂度:O(logN)
+
+        注意点：
+            1、循环终止条件 start <= end
+                分析为什么是<=而不是<
+                假设a={1,2,3};要查找的num=3;
+                第一步，low=0,high=2,mid=1;a[mid]<3,所以low=mid+1=2;
+                如果循环跳出条件是low<high,此时就跳出循环了，得出结果 -1，所以需要<=
+            2、mid的取值
+                mid = (start+end)/2, 当start，end很大时可能造成溢出，可以改为low+(high-low)//2, 进一步可写为low+(high-low)>>1
+            3、start,end的更新
+
+        局限性：
+            1、二分查找依赖顺序表结构，简单来说就是数组。链表不能用二分，因为二分是根据下标随机访问元素的
+            2、二分查找针对的是有序数据，所以二分使用于插入、删除操作不频繁，一次排序多次查找的场景
+            3、数据量太小不适合二分查找
+                例外：数据之间的比较非常耗时，不管数据量大小，推荐使用二分查找，为了减小比较次数
+            4、数据量太大也不适合二分查找
+                二分查找的底层依赖数组这种数据结构，数组为了支持随机访问，要求内存空间连续，对内存要求较苛刻。
         :param key:
         :return:
         """
@@ -37,7 +55,7 @@ class Search(object):
         start = 0
         end = len(array) - 1
         flag = False
-        while start < end:
+        while start <= end:
             mid = (start + end) // 2
             if array[mid] == key:
                 flag = True
@@ -221,8 +239,84 @@ class HashTable:
             return True
 
 
+class BinarySearchConvert:
+    # 二叉查找的变形问题
+    def __init__(self):
+        self.array = [1, 2, 2, 3, 3, 4, 5, 6, 7, 8]
+
+    def find_first_key(self, num):
+        # 在可能有重复元素的数组中，查找第一个等于key的元素
+        data = self.array.copy()
+        low = 0
+        high = len(data) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid] < num:
+                low = mid + 1
+            elif data[mid] > num:
+                high = mid - 1
+            elif mid == 0 or data[mid-1] != num:  # mid=0或者前一个元素不等于num，表示找到了第一个
+                return mid
+            else:                                 # 相等但不是第一个，则在左半区间查
+                high = mid - 1
+        return -1
+
+    def find_last_key(self, num):
+        # 在可能有重复元素的数组中，查找最后一个等于key的元素
+        data = self.array.copy()
+        low = 0
+        high = len(data) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid] > num:
+                high = mid - 1
+            elif data[mid] < num:
+                low = mid + 1
+            elif mid == len(data)-1 or data[mid+1] != num:  # mid==len(data),或者下一个元素不等于num，表示已经找到最后一个
+                return mid
+            else:
+                low = mid + 1
+        return -1
+
+    def find_firse_large_equal_key(self, num):
+        # 在可能有重复元素的数组中，查找第一个大于等于 num 的元素
+        data = self.array.copy()
+        low, high = 0, len(data)-1
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid] >= num:                   # mid下标值大于等于num
+                if mid == 0 or data[mid-1] < num:  # mid==0 或者 前一个元素小于num，则当前元素满足
+                    return mid
+                else:                              # 不是第一个往必然在左半区间内
+                    high = mid - 1
+            else:
+                low = mid + 1
+        return -1
+
+    def find_last_less_equal_key(self, num):
+        # 在可能有重复元素的数组中，查找最后一个小于key的元素
+        data = self.array.copy()
+        low, high = 0, len(data) - 1
+        while low <= high:
+            mid = (low + high) // 2
+            if data[mid] <= num:                             # mid下标值小于等于num
+                if mid == len(data)-1 or data[mid+1] > num:  # mid是最后一个元素 或者 下一个元素大于num，则当前元素满足
+                    return mid
+                else:                                        # 不是最后一个，则必然在右半区间
+                    low = mid + 1
+            else:
+                high = mid - 1
+        return -1
+
+
 if __name__ == "__main__":
-    search = Search()
-    print(search.sequent_search(34))
-    print(search.binary_search(34))
-    print(search.insert_search(34))
+    # search = Search()
+    # print(search.sequent_search(34))
+    # print(search.binary_search(34))
+    # print(search.insert_search(34))
+
+    obj = BinarySearchConvert()
+    print(obj.find_first_key(3))
+    print(obj.find_last_key(3))
+    print(obj.find_firse_large_equal_key(3))
+    print(obj.find_last_less_equal_key(3))
