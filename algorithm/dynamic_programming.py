@@ -241,6 +241,7 @@ class Solution:
     def lwst_dp(self):
         # 动态规划法
         # 状态转移方程：
+        pass
 
 obj = Solution()
 obj.lwstBT(0, 0, 0)

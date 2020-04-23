@@ -116,31 +116,24 @@ class BTree(object):
 
     def pre_travel_stack(self, root):
         """利用堆栈实现树的先序遍历"""
-        if not root:
-            return
-        my_stack = []
-        node = root
-        while node or my_stack:
-            while node:   # 从根节点开始，一直找它的左子树
-                print(node.data, end=', ')
-                my_stack.append(node)
-                node = node.left
-            node = my_stack.pop()  # while结束表示当前节点node为空，即前一个节点没有左子树了
-            node = node.right      # 开始查看它的右子树
+        stack = [root]
+        while stack:
+            s = stack.pop()  # 弹出末尾元素
+            if s:
+                print(s.val)
+                stack.append(s.right)  # 因为上面是弹出末尾元素，因此这里先加右节点再加左节点
+                stack.append(s.left)
 
     def mid_travel_stack(self, root):
         """利用堆栈实现中序遍历"""
-        if not root:
-            return
-        my_quene = []
-        node = root
-        while node or my_quene:
-            while node:
-                my_quene.append(node)
-                node = node.left
-            node = my_quene.pop()
-            print(node.data, end=', ')
-            node = node.right
+        stack = []
+        while stack or root:
+            while root:
+                stack.append(root)
+                root = root.left
+            root = stack.pop()
+            print(root.val)
+            root = root.right
 
     def post_travel_stack(self, root):
         """利用堆栈实现后序遍历"""

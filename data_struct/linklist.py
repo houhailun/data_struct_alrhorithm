@@ -100,14 +100,14 @@ def link_list():
     link.add(2)
     link.add(1)
 
-    # link.print_link()
+    link.print_link()
 
-    # length = link.size()
-    # print(length)
+    length = link.size()
+    print(length)
 
-    # print(link.search(4))
+    print(link.search(4))
 
-    # link.print_link()
+    link.print_link()
     print(link.remove(3))
 
 

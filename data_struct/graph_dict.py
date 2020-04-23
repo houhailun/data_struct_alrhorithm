@@ -120,7 +120,7 @@ class Graph:
         inf = float('inf')
         adj = {1: {2: 1, 3: 12}, 2: {4: 3, 3: 9}, 3: {5: 5}, 4: {3: 4, 5: 13, 6: 15}, 5: {6: 4}}
         dis = {2: 1, 3: 12, 4: inf, 5: inf, 6: inf}
-        parents_node = {2: 1}
+        parents_node = {2: 1}  # 记录每个顶点的前驱顶点，用于还原路径
         visited = []
 
         min_dis = None
@@ -150,6 +150,39 @@ class Graph:
         for node, parents in parents_node.items():
             travel += str(parents) + '->' + str(node) + '->'
         return travel
+
+    def floyd(self):
+        """
+        一种在有向图中求最短路径的算法，用来找每个点两两之间的最短距离（多源最短路径），是典型的动态规划
+        用在拥有负权值的有向图中求解最短路径（不过不能包含负权回路）
+        思想：
+            有向图中的每一个节点X，对于图中过的2点A和B，
+            如果有Dis（AX）+ Dis（XB）< Dis（AB），那么使得Dis（AB）=Dis（AX）+Dis（XB)。
+            当所有的节点X遍历完后，AB的最短路径就求出来了。
+        :return:
+        """
+        inf = float('inf')
+        nodes = ('A', 'B', 'C', 'D', 'E', 'F')  # 节点
+        # dis矩阵初始化
+        dis = [[0, 1, 12, inf, inf, inf],
+                 [inf, 0, 9, 3, inf, inf],
+                 [inf, inf, 0, inf, 5, inf],
+                 [inf, inf, 4, 0, 13, 15],
+                 [inf, inf, inf, inf, 0, 4],
+                 [inf, inf, inf, inf, inf, 0]]
+
+        node_num = len(nodes)  # 节点个数
+        # floyd算法 map[i,j]:=min{map[i,k]+map[k,j],map[i,j]}, map[i,j]表示i到j的最短距离，K是穷举i,j的断点，
+        for i in range(node_num):
+            for j in range(node_num):
+                for k in range(node_num):
+                    if i == j:  # 自己到自己的距离为0
+                        dis[i][j] = 0
+                        break
+                    # dis[i][j]表示i到j的最短距离，dis[i][k]表示i到k的最短距离，dis[k][j]表示k到j的最短距离
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j])  # 若比原来距离小，则更新
+        print('各个点的最短路径为:', dis)
+        print('A到D的最短距离为:', dis[0][3])
 
 
 if __name__ == "__main__":
@@ -184,3 +217,6 @@ if __name__ == "__main__":
 
     print(' Dijkstra_邻接表'.center(40, '*'))
     print(g.dijkstra_adjacency_table())
+
+    print(' floyd '.center(40, '*'))
+    print(g.floyd())
