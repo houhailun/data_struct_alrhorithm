@@ -233,13 +233,13 @@ class Sort(object):
 
 if __name__ == "__main__":
     sort_class = Sort()
-    print(sort_class.bubble_sort())
-    print(sort_class.bubble_sort_v2())
+    # print(sort_class.bubble_sort())
+    # print(sort_class.bubble_sort_v2())
     # print(sort_class.insert_sort())
     # print(sort_class.select_sort())
     # print(sort_class.shell_sort())
     # print(sort_class.heap_sort())
-    # print(sort_class.merge_sort(array))
-    # print(sort_class.quick_sort(array, 0, len(array)-1))
+    # print(sort_class.merge_sort(sort_class.data))
+    print(sort_class.quick_sort(sort_class.data, 0, len(sort_class.data)-1))
 
 

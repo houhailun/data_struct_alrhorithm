@@ -306,6 +306,6 @@ def BSTree_test():
 
 
 if __name__ == "__main__":
-    BTree_test()
+    # BTree_test()
 
-    # BSTree_test()
+    BSTree_test()
