@@ -236,7 +236,7 @@ class HashTable:
             address = (address+1) % self.count
             if not self.elem[address] or address == star:  # 说明没找到或者循环到了开始的位置
                 return False
-            return True
+        return True
 
 
 class BinarySearchConvert:

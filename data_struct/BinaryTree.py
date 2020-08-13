@@ -15,6 +15,7 @@ print(__doc__)
 树的高度：根节点的高度
 """
 
+
 class TNode(object):
     """二叉树节点类"""
     def __init__(self, data=None, left=None, right=None):

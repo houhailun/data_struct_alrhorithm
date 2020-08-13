@@ -13,7 +13,7 @@
 class Solution:
     def __init__(self):
         self.maxW = -1                 # 书包实际装物品的最大重量
-        self.weight = [2, 2, 4, 6, 3]  # 物品重要
+        self.weight = [2, 2, 4, 6, 3]  # 物品重量
         self.n = 5                     # 物品个数
         self.w = 9                     # 背包承受的最大重量
         self.mem = [[None] * 10] * 5   # 备忘录
@@ -76,13 +76,14 @@ def fibonacci(n):
 
 # print(fibonacci(10))
 
+
 # 应用3：变态青蛙跳台阶
 # 青蛙一次可以跳1级台阶，也可以跳2级台阶，...,它也可以跳到N级台阶，那么N级台阶有多少种方法？
 # 状态：f(i)标识一共i级台阶，青蛙跳台阶的方法
 # 状态递推：
-#   第一步：跳1，2，。。。，n级台阶
-#   第二步：跳f(i-1),f(i-2),...f(0)级台阶
-#   f(i) = 2*f(i-1)   f(1)=1
+#   f(i) = f(i-1) + f(i-2) + ... + f(1)
+#   f(i-1) = f(i-2) + ... + f(1)
+#   -> f(i) = 2 * f(i-1)
 def jumpFloor(number):
     if number <= 0:
         return 0
@@ -117,20 +118,20 @@ def maxSeqSub(nums):
     if nums is None:
         return
 
-    # cur_sum = max_sum = 0
-    # for num in nums:
-    #     if cur_sum < 0:
-    #         cur_sum = num
-    #     else:
-    #         cur_sum = cur_sum + num
-    #     if cur_sum > max_sum:
-    #         max_sum = cur_sum
-    # return max_sum
+    cur_sum = max_sum = 0
+    for num in nums:
+        if cur_sum < 0:
+            cur_sum = num
+        else:
+            cur_sum = cur_sum + num
+        if cur_sum > max_sum:
+            max_sum = cur_sum
+    return max_sum
 
     # 动态规划
 
 
-# print(maxSeqSub([6, -3, 7, -15, 1, 22]))
+print(maxSeqSub([6, -3, 7, -15, 1, 22]))
 
 #  应用5：triangle，找最小路径和
 # [
@@ -243,6 +244,42 @@ class Solution:
         # 状态转移方程：
         pass
 
-obj = Solution()
-obj.lwstBT(0, 0, 0)
-print(obj.min_dist)
+# obj = Solution()
+# obj.lwstBT(0, 0, 0)
+# print(obj.min_dist)
+
+# 动态规划
+# 表现形式: 求最值
+# 核心问题：穷举，当然是有策略的穷举，备忘录，DP Table
+# 三要素：
+#   重叠子问题:
+#   最优子结构：子问题间独立，通过子问题的最优价计算原问题的最优解
+#   状态转移方程: 难点
+# 0/1背包问题
+# 给你一个可装载重量为W的背包和N个物品，每个物品有重量和价值两个属性。其中第i个物品的重量为wt[i]，价值为val[i]，现在让你用这个背包装物品，最多能装的价值是多少？
+# 举例: N = 3, W = 4, wt = [2, 1, 3], val = [4, 2, 3]
+# 思路: 求最值，动态规划问题
+#   第一步: 明确状态和选择: 状态（背包的容量，可选择的物品），选择(是否装进背包中)
+#   第二部: 确定dp数组的定义: 由于状态有2个，dp数组是2维数组，dp[i][w]表示对于前i个物品，当前背包剩余容量为w，可以装的最大价值是dp[i][w]
+#           确定初始 dp[0][...] = 0, dp[...][0] = 0
+#   第三部: 根据选择，确定状态转移的逻辑 dp[i][w] = max(dp[i-1][w], dp[i-1][w-wt[i-1]] + val[i-1])
+def knapsack(W, N, wt, val):
+    """
+    0/1背包问题
+    :param W: 背包最大容量
+    :param N: 物品总数
+    :param wt: 每个物品的重量
+    :param val: 每个物品的价值
+    :return: 返回给定条件下能取到的最大价值
+    """
+    dp = [[0] * (W+1) for i in range(N+1)]
+    for i in range(1, N+1):      # 遍历每个物品
+        for j in range(1, W+1):  # 遍历所有可能的背包剩余容量
+            if wt[i-1] > j:      # 当前背包容量装不下i物品
+                dp[i][j] = dp[i-1][j]
+            else:
+                dp[i][j] = max(dp[i-1][j-wt[i-1]] + val[i-1], dp[i-1][j])
+    return dp[N][W]
+wt = [35,30,60,50,40,10,25]
+val = [10,40,30,50,35,40,30]
+print(knapsack(150, 7, wt, val))

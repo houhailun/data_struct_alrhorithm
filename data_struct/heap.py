@@ -147,6 +147,7 @@ class HeapApply:
 
     def get_median(self):
         # 求中位数
+        pass
 
 
 if __name__ == "__main__":
