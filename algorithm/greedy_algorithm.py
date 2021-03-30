@@ -133,7 +133,7 @@ def findContentChild(g, s):
     g.sort()
     s.sort()
     child = cookie = 0
-    while child < len(g) and cookie < len(s):
+    while child < len(g) and cookie < len(s):  # 循环终止条件：没有糖果了 or 没有孩子了
         if g[child] <= s[cookie]:  # 只有孩子的需求g小于糖果大小s才分给该孩子
             child += 1  # 已经有一个孩子分配到糖果
         cookie += 1     # 上一个糖果已经分配或者不能分配，用下一个糖果检查能否分配

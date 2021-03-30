@@ -227,7 +227,8 @@ class BSTree(object):
         """
         case1：待删除节点为叶子节点，直接删除
         case2：待删除节点只有左子树或只有右子树，则把其左子树或右子树代替为待删除节点
-        case3：待删除节点既有左子树又有右子树，找到该节点右子树中最小值节点，使用该节点代替待删除节点，然后在右子树中删除最小值节点。
+        case3：待删除节点既有左子树又有右子树，那么该节点右子树中最小值节点，使用该节点代替待删除节点，然后在右子树中删除最小值节点。
+
         :param key:
         :return:
         """
@@ -243,9 +244,9 @@ class BSTree(object):
                 root = None
             # 只有左子树或右子树
             elif root.left is None:
-                root = root.left
-            elif root.right is None:
                 root = root.right
+            elif root.right is None:
+                root = root.left
             # 既有左子树又有右子树
             elif root.left and root.right:
                 tmp_node = self.find_min(root.right)  # 找到右子树中最小值节点

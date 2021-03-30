@@ -310,7 +310,7 @@ class BinarySearchConvert:
 
 
 if __name__ == "__main__":
-    # search = Search()
+    search = Search()
     # print(search.sequent_search(34))
     # print(search.binary_search(34))
     # print(search.insert_search(34))

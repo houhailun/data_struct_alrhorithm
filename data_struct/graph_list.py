@@ -15,3 +15,4 @@ class Graph:
 
     def create_graph(self):
         # 构件图，实际上就是在添加顶点，添加边
+        pass

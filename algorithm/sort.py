@@ -240,6 +240,6 @@ if __name__ == "__main__":
     # print(sort_class.shell_sort())
     # print(sort_class.heap_sort())
     # print(sort_class.merge_sort(sort_class.data))
-    print(sort_class.quick_sort(sort_class.data, 0, len(sort_class.data)-1))
+    # print(sort_class.quick_sort(sort_class.data, 0, len(sort_class.data)-1))
 
 
