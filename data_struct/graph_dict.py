@@ -46,6 +46,21 @@ class Graph:
                     visited.add(w)    # 标记为已遍历
             print(' 当前出队的是: ', vertex)
 
+    # 标记节点是否已访问的列表
+    visited = {node: False for node in graph}
+
+    def dfs(graph, start, visited):
+        # DFS递归版本
+        # 访问当前节点
+        print(start, end=' ')
+        # 标记当前节点为已访问
+        visited[start] = True
+        # 遍历当前节点的邻居节点
+        for neighbor in graph[start]:
+            # 如果邻居节点未被访问，则继续深度优先搜索
+            if not visited[neighbor]:
+                dfs(graph, neighbor, visited)
+                
     def search_dfs(self, start):
         """
         深度优先搜索

@@ -139,6 +139,15 @@ class BinarySortTree:
                 return bt
         return None
 
+    def search_dp(self, root, key):
+        if not root: return None
+        if root.data == key:
+            return root
+        elif root.data > key:
+            return self.search_dp(root.left, key)
+        else:
+            return self.search_dp(root.right, key)
+
     def insert(self, key):
         """
         插入操作
